@@ -7,16 +7,12 @@ class Games:
         self.name = name
         self.creator = 'chugger'
 
-    def add_players(self, players):
-        print('p', players)
-
-    def add_stats(self, stats):
+    def generate_stats(self, stats):
         for st in stats:
             stat_name = st.select("strong")[0].contents[0]
             stat_val = st.contents[1]
             if stat_name == "Type":
                 stat_val = re.sub(': ', '', stat_val)
-                print(stat_val)
                 self.type = stat_val
             elif stat_name == "Players":
                 stat_val = re.sub(': ', '', stat_val)
@@ -51,3 +47,17 @@ class Games:
                     pass
                 else:
                     self.equipment_cat = "misc"
+
+    def generate_description(self, summary):
+        count = 0
+        for p in summary.next_elements:
+            if count == 4:
+                self.description = p
+            count += 1
+
+    def generate_rules(self, rules_list):
+        count = 0
+        for rule in rules_list.next_elements:
+            if count == 4:
+                self.static_rule = rule
+            count += 1

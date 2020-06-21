@@ -11,18 +11,32 @@ MAIN_DOMAIN = os.getenv("MAIN_DOMAIN")
 
 def handle_individual_game_creation(game_info, game_name):
     new_game = Games(game_name)
+    # Get Players and Game "Type"
     stats = game_info.find_all('li', class_='game-stats')
     if stats:
-        new_game.add_stats(stats)
+        new_game.generate_stats(stats)
     else:
         print(game_name, 'no stats')
-
+    # Generate the equipment category
     equipment_list = game_info.find('ul', id='equipment-list')
     if equipment_list:
         new_game.generate_equipment(equipment_list.contents)
     else:
-        # print(game_name, 'no equipment')
-        pass
+        new_game.equipment_cat = "none"
+
+    # Description
+    summary = game_info.find('h2', id='h2-summary')
+    if summary:
+        new_game.generate_description(summary)
+    else:
+        new_game.description = 'No description'
+
+    # Rules
+    rules_list = game_info.find('h2', id='h2-rules')
+    if rules_list:
+        new_game.generate_rules(rules_list)
+    else:
+        print('no rules')
 
 
 def scrape_it_baby(href):
