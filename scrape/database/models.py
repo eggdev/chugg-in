@@ -16,7 +16,12 @@ class Games:
                 self.type = stat_val
             elif stat_name == "Players":
                 stat_val = re.sub(': ', '', stat_val)
-                # self.add_players(stat_val)
+                players = re.findall(r'\d+', stat_val)
+                self.min_players = players[0]
+                if len(players) > 1:
+                    self.max_players = players[1]
+                else:
+                    self.max_players = players[0]
 
     def generate_equipment(self, equipment_list):
         for eq in equipment_list:

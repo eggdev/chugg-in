@@ -1,6 +1,8 @@
 import os
 import requests
 import re
+import json
+from pprint import pprint
 from database.config import db
 from database.models import Games
 from bs4 import BeautifulSoup
@@ -30,13 +32,14 @@ def handle_individual_game_creation(game_info, game_name):
         new_game.generate_description(summary)
     else:
         new_game.description = 'No description'
-
     # Rules
     rules_list = game_info.find('h2', id='h2-rules')
     if rules_list:
         new_game.generate_rules(rules_list)
     else:
-        print('no rules')
+        new_game.static_rule = 'No rules provided'
+
+    return new_game
 
 
 def scrape_it_baby(href):
@@ -46,7 +49,13 @@ def scrape_it_baby(href):
         res.raise_for_status()
         game_info = BeautifulSoup(res.text, 'html.parser')
         game_name = game_info.select('.emphasis')[0].contents[0]
-        handle_individual_game_creation(game_info, game_name)
+        found = db.games.find_one({'name': game_name})
+        if found is None:
+            new_game = handle_individual_game_creation(game_info, game_name)
+            db.games.insert_one(new_game.__dict__)
+        else:
+            print(f'{game_name} already in db')
+
     except Exception as exc:
         print('cant scrape game', game_name)
 
