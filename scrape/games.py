@@ -1,31 +1,44 @@
+import os
 import requests
 import re
+from database.config import db
+from database.models import Games
 from bs4 import BeautifulSoup
-domain = "https://drinkinggamezone.com"
+import dotenv
+dotenv.load_dotenv()
+MAIN_DOMAIN = os.getenv("MAIN_DOMAIN")
 
 
-def handle_individual_game_creation(game_info):
-    stats = game_info.select('.game-stats')
-    for st in stats:
-        stat_name = st.select("strong")[0].contents[0]
-        stat_val = st.contents[1]
-        if stat_name == "Type" or stat_name == "Players":
-            stat_val = re.sub(': ', '', stat_val)
-            print(stat_name, stat_val)
+def handle_individual_game_creation(game_info, game_name):
+    new_game = Games(game_name)
+    stats = game_info.find_all('li', class_='game-stats')
+    if stats:
+        new_game.add_stats(stats)
+    else:
+        print(game_name, 'no stats')
+
+    equipment_list = game_info.find('ul', id='equipment-list')
+    if equipment_list:
+        new_game.generate_equipment(equipment_list.contents)
+    else:
+        # print(game_name, 'no equipment')
+        pass
 
 
 def scrape_it_baby(href):
-    res = requests.get(f'{domain}/{href}')
+    res = requests.get(f'{MAIN_DOMAIN}/{href}')
+    game_name = ''
     try:
         res.raise_for_status()
         game_info = BeautifulSoup(res.text, 'html.parser')
-        handle_individual_game_creation(game_info)
+        game_name = game_info.select('.emphasis')[0].contents[0]
+        handle_individual_game_creation(game_info, game_name)
     except Exception as exc:
-        print('cant scrape game')
+        print('cant scrape game', game_name)
 
 
 def scan_cats(link):
-    res = requests.get(f'{domain}/{link}')
+    res = requests.get(f'{MAIN_DOMAIN}/{link}')
     try:
         res.raise_for_status()
         categories = BeautifulSoup(res.text, 'html.parser')

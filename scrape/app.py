@@ -1,10 +1,16 @@
-import requests
-from bs4 import BeautifulSoup
+import os
 from games import scan_cats
+from bs4 import BeautifulSoup
+import database.config
+import requests
+import dotenv
+dotenv.load_dotenv()
+
+MAIN_DOMAIN = os.getenv("MAIN_DOMAIN")
 
 
 def main():
-    res = requests.get('https://drinkinggamezone.com/')
+    res = requests.get(MAIN_DOMAIN)
     try:
         res.raise_for_status()
         soup_home = BeautifulSoup(res.text, 'html.parser')
