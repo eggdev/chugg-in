@@ -1,6 +1,7 @@
 version: "3.4"
 services:
   flask:
+    container_name: chuggin
     build: ./
     command: python app.py
     working_dir: /usr/src/flask

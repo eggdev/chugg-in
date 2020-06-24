@@ -1,8 +1,10 @@
 FROM python:alpine
 
-WORKDIR /usr/src/
+ENV SRC_DIR /usr/src/
 
-COPY ./flask /usr/src/flask
+WORKDIR ${SRC_DIR}
+
+COPY ./flask ${SRC_DIR}/flask
 
 RUN pip install flask
 
