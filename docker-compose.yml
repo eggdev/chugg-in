@@ -1,0 +1,6 @@
+version: "3.4"
+services:
+  chuggin:
+    build: ./
+    command: python app.py
+    working_dir: /usr/src/
