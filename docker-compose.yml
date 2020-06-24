@@ -1,6 +1,10 @@
 version: "3.4"
 services:
-  chuggin:
+  flask:
     build: ./
     command: python app.py
-    working_dir: /usr/src/
+    working_dir: /usr/src/flask
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./flask:/usr/src/flask
