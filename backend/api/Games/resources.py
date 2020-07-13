@@ -7,3 +7,9 @@ class GamesAPI(Resource):
     def get(self):
         games = Games.objects()
         return make_response({"games": games}, 200)
+
+
+class SingleGame(Resource):
+    def get(self, id):
+        game = Games.objects.get(id=id)
+        return make_response({"game": game}, 200)
