@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { List } from "react-native-paper";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import GameListItem from "../components/GameListItem/GameListItem";
 
-const Home = () => {
+const GamesList = ({ navigation }) => {
   const [gamesArray, setGamesArray] = useState([]);
   const fetchGameData = async () => {
     const request = await fetch(`http://localhost:5000/api/games?limit=25`);
@@ -15,15 +15,25 @@ const Home = () => {
     fetchGameData();
   }, []);
 
+  const onGamePress = (id) => {
+    navigation.push("Game", {
+      id: id,
+    });
+  };
+
   return (
-    <View style={{ overflowY: "auto" }}>
+    <ScrollView>
       <List.Section>
         {gamesArray.map((game) => (
-          <GameListItem key={game._id["$oid"]} data={game} />
+          <GameListItem
+            key={game._id["$oid"]}
+            data={game}
+            onGamePress={onGamePress}
+          />
         ))}
       </List.Section>
-    </View>
+    </ScrollView>
   );
 };
 
-export default Home;
+export default GamesList;

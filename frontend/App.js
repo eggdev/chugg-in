@@ -1,16 +1,15 @@
 import React from "react";
-import Header from "./src/components/Header/Header";
-import { Router, Route } from "./react-router";
-import IndividualGame from "./src/routes/IndividualGame";
-import GamesList from "./src/routes/GamesList";
+import { Provider as PaperProvider } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import RootNavigator from "./src/routes/RootNavigator";
 
 const App = () => {
   return (
-    <Router>
-      <Header />
-      <Route exact path="/" component={GamesList} />
-      <Route path="/:name" component={IndividualGame} />
-    </Router>
+    <PaperProvider>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
 
