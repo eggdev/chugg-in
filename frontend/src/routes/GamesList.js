@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import GamesList from "../components/GamesList/GamesList";
+import { List } from "react-native-paper";
 import { View } from "react-native";
+import GameListItem from "../components/GameListItem/GameListItem";
 
 const Home = () => {
   const [gamesArray, setGamesArray] = useState([]);
   const fetchGameData = async () => {
-    const request = await fetch(`http://localhost:5000/api/games`);
+    const request = await fetch(`http://localhost:5000/api/games?limit=25`);
     const { games } = await request.json();
     setGamesArray(games);
   };
@@ -16,7 +17,11 @@ const Home = () => {
 
   return (
     <View style={{ overflowY: "auto" }}>
-      <GamesList games={gamesArray} />
+      <List.Section>
+        {gamesArray.map((game) => (
+          <GameListItem key={game._id["$oid"]} data={game} />
+        ))}
+      </List.Section>
     </View>
   );
 };

@@ -1,8 +1,11 @@
 import React from "react";
-import { List, Button } from "react-native-paper";
+import { List } from "react-native-paper";
 import { Text, TouchableOpacity } from "react-native";
 
-const Game = ({ data }) => {
+const GameListItem = ({ data }) => {
+  const handleRoute = () => {
+    console.log(data._id["$oid"]);
+  };
   const handleDelete = async () => {
     console.log("here");
     // const req = await fetch(`http://localhost:5000/api/games/${data._id}`, {
@@ -18,6 +21,7 @@ const Game = ({ data }) => {
           {data.name} | Cat: {data.equipment_cat}
         </Text>
       }
+      onPress={handleRoute}
       description={data.description}
       right={(props) => (
         <TouchableOpacity onPress={handleDelete}>
@@ -28,4 +32,4 @@ const Game = ({ data }) => {
   );
 };
 
-export default Game;
+export default GameListItem;
