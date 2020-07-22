@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
-import BottomTabs from "../components/BottomTabs/BottomTabs";
+import BottomTabs from "./BottomTabs";
 import IndividualGame from "./IndividualGame";
 
 const RootNavigator = () => {

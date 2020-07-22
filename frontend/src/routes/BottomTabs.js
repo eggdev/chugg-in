@@ -1,12 +1,13 @@
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import GamesList from "../../routes/GamesList";
+import GamesList from "./GamesList";
+import CreateGame from "./CreateGame";
 
 const Tab = createMaterialBottomTabNavigator();
 
 const BottomTabs = () => {
   return (
-    <Tab.Navigator initialRouteName="Home" labeled={false}>
+    <Tab.Navigator initialRouteName="New" labeled={false}>
       <Tab.Screen
         name="Home"
         component={GamesList}
@@ -16,7 +17,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="New"
-        component={GamesList}
+        component={CreateGame}
         options={{
           tabBarIcon: "plus-box",
         }}
