@@ -1,9 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
-import GamesList from "./GamesList";
+import BottomTabs from "../components/BottomTabs/BottomTabs";
 import IndividualGame from "./IndividualGame";
 
 const RootNavigator = () => {
@@ -11,7 +10,7 @@ const RootNavigator = () => {
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
         name="Home"
-        component={GamesList}
+        component={BottomTabs}
         options={{ headerTitle: "Chugg.In" }}
       />
       <Stack.Screen name="Game" component={IndividualGame} />

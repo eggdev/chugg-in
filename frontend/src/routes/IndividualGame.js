@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Title, Subheading, Card } from "react-native-paper";
 
 const IndividualGame = ({ route }) => {
@@ -16,14 +16,14 @@ const IndividualGame = ({ route }) => {
   }, [id]);
 
   return (
-    <View>
+    <ScrollView>
       {gameData && (
         <Card style={styles.container}>
           <Title>{gameData.name}</Title>
           <Subheading>{gameData.description}</Subheading>
         </Card>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
