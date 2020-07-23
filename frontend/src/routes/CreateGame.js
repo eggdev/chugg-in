@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { Title, Text, Card, TextInput, Chip } from "react-native-paper";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { Title, Card, TextInput, Chip, List, Button } from "react-native-paper";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
 const CreateGame = () => {
   const [gameDetails, setGameDetails] = useState({
     name: "",
     description: "",
-    max_players: "0",
+    max_players: "",
     min_players: "2",
     equipment_cat: "",
     creator: "chugger",
@@ -23,21 +30,35 @@ const CreateGame = () => {
     });
   };
 
-  const handleListPopulation = (id, val) => {
-    setCurrentStep("");
+  const handleRemoveFromList = (id, value) => {
     setGameDetails({
       ...gameDetails,
-      [id]: [...gameDetails[id], val],
+      [id]: gameDetails[id].filter((item) => item !== value),
     });
+  };
+
+  const handleListPopulation = (id, value) => {
+    if (!gameDetails[id].includes(value) && value !== "") {
+      setGameDetails({
+        ...gameDetails,
+        [id]: [...gameDetails[id], value],
+      });
+      if (currentStep !== "") setCurrentStep("");
+      if (currentRule !== "") setCurrentRule("");
+    }
+  };
+
+  const handleCreateGame = () => {
+    console.log(gameDetails);
   };
 
   const availableCategories = [
     "cards",
-    "dice",
-    "cups",
     "console",
-    "none",
+    "cups",
+    "dice",
     "other",
+    "none",
   ];
 
   return (
@@ -45,6 +66,7 @@ const CreateGame = () => {
       <Card style={cardStyles.container}>
         <Title>Create New Game</Title>
         <TextInput
+          style={inputStyles.input}
           onChangeText={(val) => handleChanges("name", val)}
           label="Name"
           mode="outlined"
@@ -58,6 +80,7 @@ const CreateGame = () => {
             keyboardType="numeric"
             onChangeText={(val) => handleChanges("min_players", val)}
             mode="outlined"
+            maxLength={2}
             label="Min Players"
             value={gameDetails.min_players}
           />
@@ -65,6 +88,7 @@ const CreateGame = () => {
             dense
             style={playersInputStyles.input}
             keyboardType="numeric"
+            maxLength={2}
             onChangeText={(val) => handleChanges("max_players", val)}
             mode="outlined"
             label="Max Players"
@@ -93,13 +117,24 @@ const CreateGame = () => {
         <Title>Setup</Title>
         <View>
           {gameDetails.setup.map((step) => (
-            <Text key={step}>{step}</Text>
+            <List.Item
+              key={step}
+              title={step}
+              right={(props) => (
+                <TouchableOpacity
+                  onPress={() => handleRemoveFromList("setup", step)}
+                >
+                  <List.Icon {...props} icon="close" />
+                </TouchableOpacity>
+              )}
+            />
           ))}
           <TextInput
             dense
             onChangeText={(val) => setCurrentStep(val)}
             label="Setup"
             mode="outlined"
+            style={inputStyles.input}
             value={currentStep}
             placeholder="e.g. 10 cups touching in triangle shape"
             returnKeyType="next"
@@ -107,21 +142,42 @@ const CreateGame = () => {
           />
         </View>
         <Title>When to drink</Title>
-        <View>
-          {gameDetails.rules.map((rule) => (
-            <Text key={rule}>{rule}</Text>
-          ))}
-          <TextInput
-            dense
-            onChangeText={(val) => setCurrentRule(val)}
-            label="Rule"
-            mode="outlined"
-            value={currentRule}
-            placeholder="e.g. Ace: Waterfall"
-            returnKeyType="next"
-            onSubmitEditing={() => handleListPopulation("rules", currentRule)}
-          />
-        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <View>
+            {gameDetails.rules.map((rule) => (
+              <List.Item
+                key={rule}
+                title={rule}
+                right={(props) => (
+                  <TouchableOpacity
+                    onPress={() => handleRemoveFromList("rules", rule)}
+                  >
+                    <List.Icon {...props} icon="close" />
+                  </TouchableOpacity>
+                )}
+              />
+            ))}
+            <TextInput
+              dense
+              onChangeText={(val) => setCurrentRule(val)}
+              label="Rule"
+              mode="outlined"
+              style={inputStyles.input}
+              value={currentRule}
+              placeholder="e.g. Ace: Waterfall"
+              returnKeyType="next"
+              onSubmitEditing={() => handleListPopulation("rules", currentRule)}
+            />
+          </View>
+        </KeyboardAvoidingView>
+        <Card.Actions style={cardStyles.actions}>
+          <Button onPress={handleCreateGame} mode="contained">
+            Create Game
+          </Button>
+        </Card.Actions>
       </Card>
     </ScrollView>
   );
@@ -131,6 +187,11 @@ const cardStyles = StyleSheet.create({
   container: {
     padding: 10,
     minHeight: "100%",
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -142,6 +203,12 @@ const playersInputStyles = StyleSheet.create({
   },
   input: {
     width: "50%",
+  },
+});
+
+const inputStyles = StyleSheet.create({
+  input: {
+    marginBottom: 10,
   },
 });
 
