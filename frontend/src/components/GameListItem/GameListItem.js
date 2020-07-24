@@ -18,7 +18,7 @@ const GameListItem = ({ data, onGamePress }) => {
           {data.name} | Cat: {data.equipment_cat}
         </Text>
       }
-      onPress={() => onGamePress(data._id["$oid"])}
+      onPress={() => onGamePress(data._id)}
       description={data.description}
       right={(props) => (
         <TouchableOpacity onPress={handleDelete}>

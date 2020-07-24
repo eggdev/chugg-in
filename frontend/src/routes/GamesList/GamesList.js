@@ -6,7 +6,7 @@ import GameListItem from "../../components/GameListItem/GameListItem";
 const GamesList = ({ navigation }) => {
   const [gamesArray, setGamesArray] = useState([]);
   const fetchGameData = async () => {
-    const request = await fetch(`http://localhost:5000/api/games?limit=25`);
+    const request = await fetch(`http://localhost:5000/api/games`);
     const { games } = await request.json();
     setGamesArray(games);
   };
@@ -25,11 +25,7 @@ const GamesList = ({ navigation }) => {
     <ScrollView>
       <List.Section>
         {gamesArray.map((game) => (
-          <GameListItem
-            key={game._id["$oid"]}
-            data={game}
-            onGamePress={onGamePress}
-          />
+          <GameListItem key={game._id} data={game} onGamePress={onGamePress} />
         ))}
       </List.Section>
     </ScrollView>

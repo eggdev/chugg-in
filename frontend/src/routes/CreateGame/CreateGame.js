@@ -11,14 +11,14 @@ import {
 
 const CreateGame = () => {
   const [gameDetails, setGameDetails] = useState({
-    name: "",
+    name: "Kings",
     description: "",
     max_players: "",
     min_players: "2",
-    equipment_cat: "",
+    equipment_cat: "cards",
     creator: "chugger",
-    setup: [],
-    rules: [],
+    setup: ["Drink"],
+    rules: ["Ace"],
   });
   const [currentStep, setCurrentStep] = useState("");
   const [currentRule, setCurrentRule] = useState("");
@@ -48,8 +48,16 @@ const CreateGame = () => {
     }
   };
 
-  const handleCreateGame = () => {
-    console.log(gameDetails);
+  const handleCreateGame = async () => {
+    const req = await fetch("http://localhost:5000/api/game", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...gameDetails }),
+    });
+    const res = await req.json();
+    console.log(res);
   };
 
   const availableCategories = [
