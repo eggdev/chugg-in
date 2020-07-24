@@ -57,7 +57,6 @@ const CreateGame = () => {
       body: JSON.stringify({ ...gameDetails }),
     });
     const res = await req.json();
-    console.log(res);
   };
 
   const availableCategories = [
