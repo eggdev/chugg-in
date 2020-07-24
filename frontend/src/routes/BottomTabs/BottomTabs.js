@@ -1,7 +1,7 @@
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import GamesList from "./GamesList";
-import CreateGame from "./CreateGame";
+import GamesList from "../GamesList/GamesList";
+import CreateGame from "../CreateGame/CreateGame";
 
 const Tab = createMaterialBottomTabNavigator();
 

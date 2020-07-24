@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { List } from "react-native-paper";
 import { ScrollView } from "react-native";
-import GameListItem from "../components/GameListItem/GameListItem";
+import GameListItem from "../../components/GameListItem/GameListItem";
 
 const GamesList = ({ navigation }) => {
   const [gamesArray, setGamesArray] = useState([]);
