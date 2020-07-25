@@ -30,7 +30,7 @@ Mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     process.exit();
   });
 
-app.listen(5000, () => {
+app.listen(80, () => {
   console.log("Listening");
   GamesRoutes(app);
 });
