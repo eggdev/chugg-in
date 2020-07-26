@@ -9,6 +9,8 @@ import {
   Platform,
 } from "react-native";
 
+const API_URL = "https://chuggin-api.herokuapp.com";
+
 const CreateGame = () => {
   const [gameDetails, setGameDetails] = useState({
     name: "Kings",
@@ -49,7 +51,7 @@ const CreateGame = () => {
   };
 
   const handleCreateGame = async () => {
-    const req = await fetch("http://localhost:5000/api/game", {
+    const req = await fetch(`${API_URL}/api/game`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

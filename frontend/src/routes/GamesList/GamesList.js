@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { List } from "react-native-paper";
 import { ScrollView } from "react-native";
 import GameListItem from "../../components/GameListItem/GameListItem";
+const API_URL = "https://chuggin-api.herokuapp.com";
 
 const GamesList = ({ navigation }) => {
   const [gamesArray, setGamesArray] = useState([]);
   const fetchGameData = async () => {
-    const request = await fetch(`http://localhost:5000/api/games`);
+    const request = await fetch(`${API_URL}/api/games`);
     const { games } = await request.json();
     setGamesArray(games);
   };

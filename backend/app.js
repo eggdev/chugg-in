@@ -4,7 +4,7 @@ const Mongoose = require("mongoose");
 const cors = require("cors");
 const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 const DB_URL = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
-
+const PORT = process.env.PORT || 80;
 const app = Express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,7 +30,7 @@ Mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     process.exit();
   });
 
-app.listen(80, () => {
+app.listen(PORT, () => {
   console.log("Listening");
   GamesRoutes(app);
 });
