@@ -1,11 +1,13 @@
-import React from "react";
-import { Text } from "react-native";
+import React, { useState } from "react";
+
+import { View } from "react-native";
 const Login = () => {
-  return (
-    <>
-      <Text>Login Component</Text>
-    </>
-  );
+  const [isSigninInProgress, setIsSigninInProgress] = useState(false);
+  const handleSignin = () => {
+    console.log("here");
+  };
+
+  return <View></View>;
 };
 
 export default Login;

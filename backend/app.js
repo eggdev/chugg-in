@@ -1,9 +1,15 @@
+require("dotenv").config();
 const Express = require("express");
 const bodyParser = require("body-parser");
 const Mongoose = require("mongoose");
 const cors = require("cors");
-const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_HOST = process.env.DB_HOST;
+const DB_NAME = process.env.DB_NAME;
+
 const DB_URL = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
+
 const PORT = process.env.PORT || 80;
 const app = Express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,6 +25,7 @@ const CORSOptions = (req, cb) => {
 app.use(cors(CORSOptions));
 
 const GamesRoutes = require("./routes/games.routes");
+const AuthRoutes = require("./routes/auth.routes");
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -33,4 +40,5 @@ Mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 app.listen(PORT, () => {
   console.log("Listening");
   GamesRoutes(app);
+  AuthRoutes(app);
 });
