@@ -1,4 +1,4 @@
-package com.app;
+package com.chuggin.app;
 
 import com.facebook.react.ReactActivity;
 
