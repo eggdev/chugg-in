@@ -58,3 +58,7 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 **/GoogleService-Info.plist
+
+
+# Custom
+env.js
